@@ -1,8 +1,7 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
 }
 
-def moduleApplicationId = "com.ryan.app.wanandroidr"
 def config = rootProject.ext
 
 android {
@@ -15,15 +14,9 @@ android {
         targetSdkVersion sdk.targetSdkVersion
         versionCode sdk.versionCode
         versionName sdk.versionName
-        applicationId moduleApplicationId
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-            }
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -36,7 +29,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     buildFeatures {
         dataBinding true
     }
@@ -44,21 +36,15 @@ android {
 
 dependencies {
 
-    implementation project(path: ':commonlib')
+    api project(path: ':log')
+
     def deps = config.deps
     implementation deps.appcompat
     implementation deps.material
-    implementation deps.constraintlayout
     testImplementation deps.junit
     androidTestImplementation deps.androidxjunit
     androidTestImplementation deps.espressoCore
 
-    //第三方lib
-    implementation deps.bannerviewpager
-
-    implementation(deps.glide) {
-        exclude group: "com.android.support"
-    }
-    annotationProcessor config.apts.glide
-//    annotationProcessor config.apts.arouter
+    implementation deps.permissionx
+    api deps.arouter
 }

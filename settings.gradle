@@ -1,2 +1,4 @@
+include ':commonlib'
+include ':log'
 include ':app'
 rootProject.name = "WanAndroidR"
